@@ -2,26 +2,18 @@
 
 """scikit-surgery-evaluation tests"""
 
+import pytest
 from sksurgeryeval.ui.sksurgeryeval_demo import run_demo
-from sksurgeryeval.algorithms import addition, multiplication
-import six
+from sksurgeryeval.algorithms.algorithms import point_in_locator, np2vtk, configure_tracker, populate_models
 
 # Pytest style
 
 def test_using_pytest_sksurgeryeval():
-    x = 1
-    y = 2
-    verbose = False
-    multiply = False
+    with pytest.raises(ValueError):
+        run_demo("empty", True) 
 
-    expected_answer = 3
-    assert run_demo(x, y, multiply, verbose) == expected_answer
+def test_populate_models():
 
-def test_addition():
+    populate_models("data")
 
-    assert addition.add_two_numbers(1, 2) == 3
-
-def test_multiplication():
-
-    assert multiplication.multiply_two_numbers(2, 2) == 4
 

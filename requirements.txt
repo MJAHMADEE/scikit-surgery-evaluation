@@ -5,3 +5,11 @@
 numpy
 ipykernel
 nbsphinx
+vtk
+PySide2
+scikit-surgeryvtk>=0.9.0
+scikit-surgerycore
+scikit-surgeryutils
+scikit-surgerynditracker
+scikit-surgeryarucotracker
+

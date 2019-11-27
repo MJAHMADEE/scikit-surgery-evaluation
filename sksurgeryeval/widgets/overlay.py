@@ -1,18 +1,17 @@
 # coding=utf-8
 
-"""Main loop for tracking visualisation"""
-#from sksurgerytrackervisualisation.shapes import cone, cylinder
+"""Main loop for surgery evaluation"""
 from math import isnan
 from sksurgeryutils.common_overlay_apps import OverlayBaseApp
-from sksurgerytrackervisualisation.algorithms.algorithms import (
-        np2vtk, configure_tracker, populate_models)
-from sksurgerytrackervisualisation.algorithms.background_image import \
+from sksurgeryeval.algorithms.algorithms import (
+        configure_tracker, populate_models)
+from sksurgeryeval.algorithms.background_image import \
         OverlayBackground
 
 
 class OverlayApp(OverlayBaseApp):
-    """Inherits from OverlayBaseApp, adding code to move vtk models
-    based on input from a scikitsurgery tracker"""
+    """Inherits from OverlayBaseApp, adding code to test the 
+    proximity of a tracked object to a set of vtk objects"""
 
     def __init__(self, config):
         """Overides overlay base app's init, to initialise the
@@ -25,8 +24,8 @@ class OverlayApp(OverlayBaseApp):
             self.timer = None
             self.save_frame = None
 
-        if "image" in config:
-            self.bg_image = OverlayBackground(config.get("image"))
+        if "logo" in config:
+            self.bg_image = OverlayBackground(config)
         else:
             default_config = {"logo" : True}
             self.bg_image = OverlayBackground(default_config)
