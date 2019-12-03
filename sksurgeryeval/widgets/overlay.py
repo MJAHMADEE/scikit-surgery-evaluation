@@ -7,6 +7,9 @@ from sksurgeryeval.algorithms.algorithms import (
         configure_tracker, populate_models, np2vtk, point_in_locator)
 from sksurgeryeval.algorithms.background_image import \
         OverlayBackground
+from sksurgeryeval.shapes.cone import VTKConeModel
+
+
 
 
 class OverlayApp(OverlayBaseApp):
@@ -47,7 +50,7 @@ class OverlayApp(OverlayBaseApp):
 
         self._tracker_handle = 0
         self._pointer = VTKConeModel(5.0, 2.5, (1.0, 1.0, 1.0), "pointer")
-        self.vtk_overlay_window.add_vtk_models(self._pointer)
+        self.vtk_overlay_window.add_vtk_actor(self._pointer.actor)
         self.vtk_overlay_window.add_vtk_models(models)
 
 
