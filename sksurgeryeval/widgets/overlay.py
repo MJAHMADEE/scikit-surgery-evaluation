@@ -34,8 +34,7 @@ class OverlayApp(OverlayBaseApp):
         if "tracker config" in config:
             self._tracker = configure_tracker(config.get("tracker config"))
 
-        self._model_handles, models = populate_models(config.get("models"))
-        self.vtk_overlay_window.add_vtk_models(models)
+        models, self._locators = populate_models(config.get("models"))
 
         if "camera" in config:
             camera_config = config.get("camera")
@@ -47,6 +46,10 @@ class OverlayApp(OverlayBaseApp):
                     -300, 300, -300, 300, -200, 0)
 
         self._tracker_handle = 0
+        self._pointer = VTKConeModel(5.0, 2.5, (1.0, 1.0, 1.0), "pointer")
+        self.vtk_overlay_window.add_vtk_models(self._pointer)
+        self.vtk_overlay_window.add_vtk_models(models)
+
 
     def update(self):
         """Update the background renderer with a new frame,

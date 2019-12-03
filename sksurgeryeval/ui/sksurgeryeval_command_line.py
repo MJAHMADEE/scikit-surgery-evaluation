@@ -16,7 +16,8 @@ def main(args=None):
     ## ADD POSITIONAL ARGUMENTS
     parser.add_argument("-c", "--config",
                         type=str,
-                        help="A configuration file")
+                        help="A configuration file",
+                        required=True)
 
 
     # ADD OPTINAL ARGUMENTS
