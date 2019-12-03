@@ -4,13 +4,13 @@
 from math import isnan
 from sksurgeryutils.common_overlay_apps import OverlayBaseApp
 from sksurgeryeval.algorithms.algorithms import (
-        configure_tracker, populate_models)
+        configure_tracker, populate_models, np2vtk, point_in_locator)
 from sksurgeryeval.algorithms.background_image import \
         OverlayBackground
 
 
 class OverlayApp(OverlayBaseApp):
-    """Inherits from OverlayBaseApp, adding code to test the 
+    """Inherits from OverlayBaseApp, adding code to test the
     proximity of a tracked object to a set of vtk objects"""
 
     def __init__(self, config):
@@ -46,38 +46,32 @@ class OverlayApp(OverlayBaseApp):
                 self.vtk_overlay_window.foreground_renderer.ResetCamera(
                     -300, 300, -300, 300, -200, 0)
 
+        self._tracker_handle = 0
 
     def update(self):
         """Update the background renderer with a new frame,
-        move the model and render"""
+        move the model(s) and render"""
         image = self.bg_image.next_image()
 
-        #add a method to move the rendered models
+        #add a method to move the pointer
         self._update_tracking()
 
         self.vtk_overlay_window.set_video_image(image)
         self.vtk_overlay_window.Render()
 
     def _update_tracking(self):
-        """Internal method to move the rendered models in
-        some interesting way
-        #Iterate through the rendered models
-        for actor in \
-                self.vtk_overlay_window.get_foreground_renderer().GetActors():
-            #get the current orientation
-            orientation = actor.GetOrientation()
-            #increase the rotation around the z-axis by 1.0 degrees
-            orientation = [orientation[0], orientation[1], orientation[2] + 1.0]
-            #add update the model's orientation
-            actor.SetOrientation(orientation)
+        """Internal method to move the pointer,
+	and check it's distance to the various
+	polydata
         """
         port_handles, _, _, tracking, quality = self._tracker.get_frame()
 
+	
         for ph_index, port_handle in enumerate(port_handles):
-            for actor_index, actor in enumerate(
-                    self.vtk_overlay_window.get_foreground_renderer().
-                    GetActors()):
-                if self._model_handles[actor_index] == port_handle:
-                    if not isnan(quality[ph_index]):
-                        actor.SetUserMatrix(np2vtk(tracking[ph_index]))
-                        break
+            if port_handle != self._tracker_handle:
+                continue
+
+        if not isnan(quality[ph_index]):
+                self._pointer_actor.SetUserMatrix(np2vtk(tracking[ph_index]))
+                index, distamce = point_in_locator(tracking[i][0:3,3])
+
