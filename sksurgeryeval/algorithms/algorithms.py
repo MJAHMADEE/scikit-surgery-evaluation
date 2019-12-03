@@ -26,7 +26,6 @@ def point_in_locator(point, point_locators, radius=1.0):
     minumum_distance = inf
     locator_index = -1
     for index, locator in enumerate(point_locators):
-
         distance = vtk.mutable(0.0)
         if locator.FindClosestPointWithinRadius(radius, point, distance) == -1:
             continue
@@ -100,6 +99,7 @@ def populate_models(path_name, model_to_world=eye(4, 4)):
         model.transform_filter.Update()
         point_locator = vtk.vtkPointLocator()
         point_locator.SetDataSet(model.source)
+        point_locator.Update()
         locators.append(point_locator)
 
     return models, locators
