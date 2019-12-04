@@ -24,7 +24,7 @@ def test_populate_models():
     Tests that populate models function reads data from
     a directory and returns a list of polydata and pointlocators
     """
-    models, locators = populate_models("data")
+    models, locators = populate_models("data", model_to_world=numpy.eye(4))
     point_in, _ = point_in_locator((570.0, 270.0, -1386.0),
                                    locators, 3.0)
     assert len(models) == 1

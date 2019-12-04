@@ -1,7 +1,7 @@
 # coding=utf-8
 """ Algorithms for the surgery evaluation application """
 import vtk
-from numpy import inf, eye
+from numpy import inf, eye, loadtxt, float32
 from sksurgerynditracker.nditracker import NDITracker
 from sksurgeryarucotracker.arucotracker import ArUcoTracker
 from sksurgeryvtk.models. vtk_surface_model_directory_loader \
@@ -76,13 +76,13 @@ def configure_tracker(config):
     return tracker
 
 
-def populate_models(path_name, model_to_world=eye(4, 4)):
+def populate_models(path_name, model_to_world):
     """
     Loads vtk models from a directory and returns
     a list of vtk actors and associated vtkPointLocators
 
     :param: pathname: directory where models are
-    :param: model_to_world: optional
+    :param: model_to_world: 4x4 matrix, of dtype float32
 
     :return: locators
     :return: actors
@@ -94,12 +94,51 @@ def populate_models(path_name, model_to_world=eye(4, 4)):
 
     locators = []
 
+    transform = vtk.vtkTransform()
+    transform.SetMatrix(np2vtk(model_to_world))
+    transformer = vtk.vtkTransformPolyDataFilter()
+    transformer.SetTransform(transform)
+
     for model in models:
-        model.set_model_transform(np2vtk(model_to_world))
-        model.transform_filter.Update()
+        print(model.source.GetCenter())
+        transformer.SetInputData(model.source)
+        target = vtk.vtkPolyData()
+        transformer.SetOutput(target)
+        transformer.Update()
+        model.source = target
+
+        transformer.SetInputConnection(model.normals.GetOutputPort())
+        model.mapper = vtk.vtkPolyDataMapper()
+        model.mapper.SetInputConnection(transformer.GetOutputPort())
+        model.mapper.Update()
+        model.actor.SetMapper(model.mapper)
+
+        print("after trans", model.source.GetCenter())
         point_locator = vtk.vtkPointLocator()
         point_locator.SetDataSet(model.source)
         point_locator.Update()
         locators.append(point_locator)
 
     return models, locators
+
+
+def set_model_to_world(config):
+    """
+    Creates a 4x4 model to world matrix
+    :param: the configuration, if model to world is defined it will load, if
+    not will set a identity model to world
+    :return the model to world matrix
+
+    :raises: ValueError if file does not contain a 4x4 matrix
+
+    """
+    model_to_world = eye(4, dtype=float32)
+
+    if "model to world" in config:
+        model_to_world = loadtxt(config.get("model to world"), dtype=float32)
+
+    if (model_to_world.shape == (4, 4) and model_to_world.dtype == float32):
+        return model_to_world
+
+    raise ValueError(('model to world should be a 4x4 matrix of type float32'),
+                     model_to_world.shape, model_to_world.dtype)
