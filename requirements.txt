@@ -11,5 +11,5 @@ scikit-surgeryvtk>=0.9.0
 scikit-surgerycore
 scikit-surgeryutils
 scikit-surgerynditracker
-scikit-surgeryarucotracker
+scikit-surgeryarucotracker>=0.0.4
 
