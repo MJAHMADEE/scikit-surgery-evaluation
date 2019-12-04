@@ -3,6 +3,7 @@
 """Main loop for surgery evaluation"""
 from math import isnan
 from sksurgeryutils.common_overlay_apps import OverlayBaseApp
+from sksurgeryvtk.text.text_overlay import VTKCornerAnnotation
 from sksurgeryeval.algorithms.algorithms import (
         configure_tracker, populate_models, np2vtk, point_in_locator)
 from sksurgeryeval.algorithms.background_image import \
@@ -49,9 +50,14 @@ class OverlayApp(OverlayBaseApp):
                     -300, 300, -300, 300, -200, 0)
 
         self._tracker_handle = 0
+        self._search_radius = 10.0
         self._pointer = VTKConeModel(5.0, 2.5, (1.0, 1.0, 1.0), "pointer")
         self.vtk_overlay_window.add_vtk_actor(self._pointer.actor)
         self.vtk_overlay_window.add_vtk_models(models)
+	
+        self._text = VTKCornerAnnotation()
+        self._text.set_text(["Hello World","","",""])
+        self.vtk_overlay_window.add_vtk_actor(self._text.text_actor)
 
 
     def update(self):
@@ -77,7 +83,9 @@ class OverlayApp(OverlayBaseApp):
             if port_handle != self._tracker_handle:
                 continue
 
-        if not isnan(quality[ph_index]):
-                self._pointer_actor.SetUserMatrix(np2vtk(tracking[ph_index]))
-                index, distamce = point_in_locator(tracking[i][0:3,3])
+            if not isnan(quality[ph_index]):
+                self._pointer.actor.SetUserMatrix(np2vtk(tracking[ph_index]))
+                index, distance = point_in_locator(tracking[ph_index][0:3,3], self._locators, self._search_radius)
+                self._text.set_text([str(index),str(distance),str(tracking[ph_index][0:3,3]),""])
+		
 
