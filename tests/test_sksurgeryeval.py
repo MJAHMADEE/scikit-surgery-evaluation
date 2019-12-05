@@ -30,7 +30,7 @@ def test_populate_models():
                                    locators, 3.0)
     assert len(models) == 3
     assert len(locators) == 3
-    assert point_in == 2
+    assert point_in == 0
 
 
 def test_point_in_locator():
