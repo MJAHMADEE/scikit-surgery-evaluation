@@ -24,7 +24,7 @@ def test_populate_models():
     Tests that populate models function reads data from
     a directory and returns a list of polydata and pointlocators
     """
-    config = { "target" : "data/patches" }
+    config = {"target" : "data/patches"}
     models, locators = populate_models(config)
     point_in, _ = point_in_locator((570.0, 270.0, -1386.0),
                                    locators, 3.0)

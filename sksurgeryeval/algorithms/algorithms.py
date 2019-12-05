@@ -166,6 +166,9 @@ def add_map(config):
         model.mapper.Update()
         model.actor.SetMapper(model.mapper)
         model.actor.GetProperty().SetRepresentationToWireframe()
+        model.actor.GetProperty().SetColor(0.7, 0.7, 0.7)
+        model.actor.GetProperty().SetOpacity(1.0)
+        model.actor.GetProperty().SetBackfaceCulling(False)
 
     return models
 
