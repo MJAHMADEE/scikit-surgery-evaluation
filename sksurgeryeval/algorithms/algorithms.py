@@ -128,6 +128,47 @@ def populate_models(config):
 
     return models, locators
 
+def add_map(config):
+    """
+    Loads vtk models from a directory and returns
+    a list of vtk actors, with mesh visualisation
+
+    :param: configuration, may contain a "map" key
+    :param: model_to_world: 4x4 matrix, of dtype float32
+
+    :return: actors, None if no "map" key
+    """
+    models = []
+    if "map" not in config:
+        return None
+
+    path_name = config.get("map")
+
+    loader = VTKSurfaceModelDirectoryLoader(path_name)
+    models = loader.models
+
+    model_to_world = _set_model_to_world(config)
+    transform = vtk.vtkTransform()
+    transform.SetMatrix(np2vtk(model_to_world))
+
+    for model in models:
+        transformer = vtk.vtkTransformPolyDataFilter()
+        transformer.SetTransform(transform)
+        transformer.SetInputData(model.source)
+        target = vtk.vtkPolyData()
+        transformer.SetOutput(target)
+        transformer.Update()
+        model.source = target
+
+        transformer.SetInputConnection(model.normals.GetOutputPort())
+        model.mapper = vtk.vtkPolyDataMapper()
+        model.mapper.SetInputConnection(transformer.GetOutputPort())
+        model.mapper.Update()
+        model.actor.SetMapper(model.mapper)
+        model.actor.GetProperty().SetRepresentationToWireframe()
+
+    return models
+
 
 def _set_model_to_world(config):
     """
