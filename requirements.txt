@@ -2,7 +2,7 @@
 # It is used by pip to manage software dependencies. It is not to be
 # confused with the software requirements, which are listed in
 # doc/requirements.rst
-numpy
+numpy>=1.11
 ipykernel
 nbsphinx
 vtk
@@ -12,4 +12,3 @@ scikit-surgerycore
 scikit-surgeryutils
 scikit-surgerynditracker
 scikit-surgeryarucotracker>=0.0.4
-
