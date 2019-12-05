@@ -96,11 +96,11 @@ def populate_models(path_name, model_to_world):
 
     transform = vtk.vtkTransform()
     transform.SetMatrix(np2vtk(model_to_world))
-    transformer = vtk.vtkTransformPolyDataFilter()
-    transformer.SetTransform(transform)
 
     for model in models:
         print(model.source.GetCenter())
+        transformer = vtk.vtkTransformPolyDataFilter()
+        transformer.SetTransform(transform)
         transformer.SetInputData(model.source)
         target = vtk.vtkPolyData()
         transformer.SetOutput(target)
