@@ -12,7 +12,8 @@
 			"bounding box" : [0.0, 640.0, 0.0, 480.0, -100.0, 0.0]
 	},
 
-	"models" : "data/",
+	"targets" : "data/patches",
+	"map" : "data/full",
         "model to world" : "configuration/model_to_world.txt",
 	"logo"   : false,
 	"search radius" : 10000

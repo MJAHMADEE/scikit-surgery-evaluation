@@ -5,8 +5,7 @@ from math import isnan
 from sksurgeryutils.common_overlay_apps import OverlayBaseApp
 from sksurgeryvtk.text.text_overlay import VTKCornerAnnotation
 from sksurgeryeval.algorithms.algorithms import (
-        configure_tracker, populate_models, np2vtk, point_in_locator,
-	set_model_to_world)
+        configure_tracker, populate_models, np2vtk, point_in_locator)
 from sksurgeryeval.algorithms.background_image import \
         OverlayBackground
 from sksurgeryeval.shapes.cone import VTKConeModel
@@ -37,8 +36,7 @@ class OverlayApp(OverlayBaseApp):
         if "tracker config" in config:
             self._tracker = configure_tracker(config.get("tracker config"))
 
-        model_to_world = set_model_to_world(config)
-        models, self._locators = populate_models(config.get("models"), model_to_world)
+        models, self._locators = populate_models(config)
 
         self._pointer = VTKConeModel(5.0, 2.5, (1.0, 1.0, 1.0), "pointer")
         self.vtk_overlay_window.add_vtk_actor(self._pointer.actor)

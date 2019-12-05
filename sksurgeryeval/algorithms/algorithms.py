@@ -76,24 +76,31 @@ def configure_tracker(config):
     return tracker
 
 
-def populate_models(path_name, model_to_world):
+def populate_models(config):
     """
     Loads vtk models from a directory and returns
     a list of vtk actors and associated vtkPointLocators
 
-    :param: pathname: directory where models are
+    :param: configuration, should contain a target value
     :param: model_to_world: 4x4 matrix, of dtype float32
 
     :return: locators
     :return: actors
+
+    :raises: KeyError if target not in config
     """
     models = []
+    if "target" not in config:
+        raise KeyError("Config must contain target key")
+
+    path_name = config.get("target")
 
     loader = VTKSurfaceModelDirectoryLoader(path_name)
     models = loader.models
 
     locators = []
 
+    model_to_world = _set_model_to_world(config)
     transform = vtk.vtkTransform()
     transform.SetMatrix(np2vtk(model_to_world))
 
@@ -122,7 +129,7 @@ def populate_models(path_name, model_to_world):
     return models, locators
 
 
-def set_model_to_world(config):
+def _set_model_to_world(config):
     """
     Creates a 4x4 model to world matrix
     :param: the configuration, if model to world is defined it will load, if
