@@ -1,5 +1,6 @@
 # coding=utf-8
 """ Algorithms for the surgery evaluation application """
+from random import shuffle
 import vtk
 from numpy import inf, eye, loadtxt, float32
 from sksurgerynditracker.nditracker import NDITracker
@@ -193,3 +194,14 @@ def _set_model_to_world(config):
 
     raise ValueError(('model to world should be a 4x4 matrix of type float32'),
                      model_to_world.shape, model_to_world.dtype)
+
+
+def random_targets(count):
+    """
+    Create a list of targets
+    """
+
+    list_a = range(count)
+    shuffle(list_a)
+
+    return list_a

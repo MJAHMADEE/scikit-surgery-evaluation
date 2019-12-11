@@ -37,7 +37,7 @@ class OverlayApp(OverlayBaseApp):
         if "tracker config" in config:
             self._tracker = configure_tracker(config.get("tracker config"))
 
-        models, self._locators = populate_models(config)
+        self._models, self._locators = populate_models(config)
         maps = add_map(config)
 
         self._pointer = VTKConeModel(10.0, 5.0, (1.0, 1.0, 1.0), "pointer")
@@ -64,6 +64,8 @@ class OverlayApp(OverlayBaseApp):
         self._text.set_text(["Hello World","","",""])
         self.vtk_overlay_window.add_vtk_actor(self._text.text_actor)
 
+        self._targets = random_targets (len(self._locators))
+        self._target_index = 0
 
     def update(self):
         """Update the background renderer with a new frame,
@@ -93,5 +95,8 @@ class OverlayApp(OverlayBaseApp):
                 index, distance = point_in_locator(tracking[ph_index][0:3,3], self._locators, self._search_radius)
 	      #  self._text.set_text([str(index),str(distance),str(tracking[ph_index][0:3,3]),""])
                 self._text.set_text([str(index),str(distance),str(tracking[ph_index]),""])
-		
 
+                if index == self._targets[self._target_index]:
+                    print ("hit")
+                    self._models[index].actor.SetVisibility(False)
+                    self._target_index = self._target_index + 1
