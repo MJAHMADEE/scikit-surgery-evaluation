@@ -8,7 +8,8 @@ import numpy
 from sksurgeryvtk.models.vtk_cylinder_model import VTKCylinderModel
 from sksurgeryeval.ui.sksurgeryeval_demo import run_demo
 from sksurgeryeval.algorithms.algorithms import \
-        point_in_locator, np2vtk, configure_tracker, populate_models
+        point_in_locator, np2vtk, configure_tracker, populate_models, \
+	random_targets
 # Pytest style
 
 def test_using_pytest_sksurgeryeval():
@@ -125,3 +126,24 @@ def test_config_tracker_aruco():
         "video source" : "data/aruco_tag.avi"
         }
     configure_tracker(config)
+
+
+def test_random_targets():
+    """
+    Tests that the random targets function returns a
+    list of the right length and that it is randomised
+    """
+    count = 101
+    random_list = random_targets(count)
+
+    assert len(random_list) == count
+    assert max(random_list) == count - 1
+    assert min(random_list) == 0
+
+    sorted_list = []
+    for i in range(count):
+        sorted_list.append(i)
+
+    # There is a 1 in 101! (9.42595E+159) chance that this test will fail
+    # when the list has been successfully shuffled.
+    assert sorted_list != random_list
