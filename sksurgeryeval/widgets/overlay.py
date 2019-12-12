@@ -43,6 +43,9 @@ class OverlayApp(OverlayBaseApp):
         self._pointer = VTKConeModel(10.0, 5.0, (1.0, 1.0, 1.0), "pointer")
         self.vtk_overlay_window.add_vtk_actor(self._pointer.actor)
         self.vtk_overlay_window.add_vtk_models(self._models)
+        for model in self._models:
+            model.actor.GetProperty().SetColor(1.0, 1.0, 1.0)
+
         if maps is not None:
             self.vtk_overlay_window.add_vtk_models(maps)
 
@@ -66,6 +69,7 @@ class OverlayApp(OverlayBaseApp):
 
         self._targets = random_targets(len(self._locators))
         self._target_index = 0
+        self._models[self._targets[self._target_index]].actor.GetProperty().SetColor(1.0, 0.0, 0.0)
 
     def update(self):
         """Update the background renderer with a new frame,
@@ -96,9 +100,17 @@ class OverlayApp(OverlayBaseApp):
                                                    self._locators,
                                                    self._search_radius)
                 self._text.set_text([str(index), str(distance),
-                                     str(tracking[ph_index]), ""])
+                                     str(tracking[ph_index]),
+                                     str(self._target_index)])
 
-                if index == self._targets[self._target_index]:
-                    print("hit")
-                    self._models[index].actor.SetVisibility(False)
-                    self._target_index = self._target_index + 1
+                if self._target_index < len(self._locators):
+                    if index == self._targets[self._target_index]:
+                        print("hit")
+                        self._models[index].actor.SetVisibility(False)
+                        self._target_index = self._target_index + 1
+                        self._models[self._targets[self._target_index]].actor.GetProperty().SetColor(1.0, 0.0, 0.0)
+                else:
+                    self._text.set_text([str(index), str(distance),
+                                         str(tracking[ph_index]),
+                                         str("Finished")])
+

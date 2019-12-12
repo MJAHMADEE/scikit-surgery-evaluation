@@ -200,8 +200,10 @@ def random_targets(count):
     """
     Create a list of targets
     """
+    list_a = []
+    for i in range(count):
+        list_a.append(i)
 
-    list_a = range(count)
     shuffle(list_a)
 
     return list_a
