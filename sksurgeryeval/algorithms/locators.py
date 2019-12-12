@@ -1,16 +1,14 @@
 # coding=utf-8
 
 """Main loop for surgery evaluation"""
-from math import isnan
 from sksurgeryvtk.text.text_overlay import VTKCornerAnnotation
 from sksurgeryeval.algorithms.algorithms import (
-        configure_tracker, populate_models, np2vtk, point_in_locator,
-        add_map, random_targets)
+        populate_models, point_in_locator, random_targets)
 
 
 
-class locators():
-    """stores a list of vtk models and corresponding locators, 
+class Locators():
+    """stores a list of vtk models and corresponding locators,
     and handles associated logic
     """
 
@@ -29,16 +27,15 @@ class locators():
 
         self._targets = random_targets(len(self._locators))
         self._target_index = 0
-        print (self._targets)
         self._set_target_active(self._targets[self._target_index])
 
         self._text = VTKCornerAnnotation()
-        self._text.set_text(["Hello World", "", "", str(self._targets[self._target_index])])
+        self._text.set_text(["Hello World", "", "",
+                             str(self._targets[self._target_index])])
 
-    
     def _set_target_active(self, index):
         self.models[index].actor.GetProperty().SetColor(1.0, 0.0, 0.0)
-    
+
     def _set_target_inactive(self, index):
         self.models[index].actor.GetProperty().SetColor(1.0, 1.0, 1.0)
 
@@ -51,13 +48,13 @@ class locators():
         index, distance = point_in_locator(tracking[0:3, 3],
                                            self._locators,
                                            self._search_radius)
-                
+
 
 
         if self._target_index < len(self._locators):
             self._text.set_text([str(index), str(distance),
-                str(tracking),
-                str(self._targets[self._target_index])])
+                                 str(tracking),
+                                 str(self._targets[self._target_index])])
 
             if index == self._targets[self._target_index]:
                 print("hit")
@@ -71,5 +68,5 @@ class locators():
                                          str("Finished")])
         else:
             self._text.set_text([str(index), str(distance),
-                str(tracking),
-                str("Finished")])
+                                 str(tracking),
+                                 str("Finished")])

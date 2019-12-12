@@ -4,12 +4,11 @@
 from math import isnan
 from sksurgeryutils.common_overlay_apps import OverlayBaseApp
 from sksurgeryeval.algorithms.algorithms import (
-        configure_tracker, populate_models, np2vtk, point_in_locator,
-        add_map, random_targets)
+        configure_tracker, np2vtk, add_map)
 from sksurgeryeval.algorithms.background_image import \
         OverlayBackground
 from sksurgeryeval.shapes.cone import VTKConeModel
-from sksurgeryeval.algorithms.locators import locators
+from sksurgeryeval.algorithms.locators import Locators
 
 
 class OverlayApp(OverlayBaseApp):
@@ -40,8 +39,8 @@ class OverlayApp(OverlayBaseApp):
         self._tracker_handle = 0
         if "tracker handle" in config:
             self._tracker_handle = config.get("tracker handle")
-    
-        self._locator = locators(config)
+
+        self._locator = Locators(config)
         maps = add_map(config)
 
         self._pointer = VTKConeModel(10.0, 5.0, (1.0, 1.0, 1.0), "pointer")
@@ -90,4 +89,3 @@ class OverlayApp(OverlayBaseApp):
                 self._pointer.actor.SetUserMatrix(np2vtk(tracking[ph_index]))
 
                 self._locator.is_hit(tracking[ph_index])
-
