@@ -47,12 +47,21 @@ setup(
         exclude=[
             'doc',
             'tests',
+            'data',
         ]
     ),
 
     install_requires=[
-        'six>=1.10',
         'numpy>=1.11',
+        'ipykernel',
+        'nbsphinx',
+        'vtk',
+        'PySide2',
+        'scikit-surgeryvtk>=0.12.3',
+        'scikit-surgerycore',
+        'scikit-surgeryutils',
+        'scikit-surgerynditracker',
+        'scikit-surgeryarucotracker>=0.0.4'
     ],
 
     entry_points={

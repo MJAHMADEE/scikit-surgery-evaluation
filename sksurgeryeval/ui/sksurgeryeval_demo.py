@@ -1,25 +1,26 @@
 # coding=utf-8
 
 """Hello world demo module"""
-from sksurgeryeval.algorithms import addition, multiplication
+import sys
+from PySide2.QtWidgets import QApplication
+from sksurgerycore.configuration.configuration_manager import (
+        ConfigurationManager
+        )
+from sksurgeryeval.widgets.overlay import OverlayApp
 
-def run_demo(input_x, input_y, multiply, verbose):
+def run_demo(configfile, verbose):
     """ Run the application """
 
-    if multiply:
-        result = multiplication.multiply_two_numbers(input_x, input_y)
+    configurer = ConfigurationManager(configfile)
 
-    else:
-        result = addition.add_two_numbers(input_x, input_y)
+    app = QApplication([])
 
+    configuration = configurer.get_copy()
 
     if verbose:
-        if multiply:
-            print("Calculating {} * {}".format(input_x, input_y))
+        print("Starting overlay app")
 
-        else:
-            print("Calculating {} + {}".format(input_x, input_y))
+    overlay = OverlayApp(configuration)
+    overlay.start()
 
-    print("Result is {}".format(result))
-
-    return result
+    sys.exit(app.exec_())
