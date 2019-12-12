@@ -3,13 +3,13 @@
 """Main loop for surgery evaluation"""
 from math import isnan
 from sksurgeryutils.common_overlay_apps import OverlayBaseApp
-from sksurgeryvtk.text.text_overlay import VTKCornerAnnotation
 from sksurgeryeval.algorithms.algorithms import (
         configure_tracker, populate_models, np2vtk, point_in_locator,
         add_map, random_targets)
 from sksurgeryeval.algorithms.background_image import \
         OverlayBackground
 from sksurgeryeval.shapes.cone import VTKConeModel
+from sksurgeryeval.algorithms.locators import locators
 
 
 class OverlayApp(OverlayBaseApp):
@@ -37,14 +37,16 @@ class OverlayApp(OverlayBaseApp):
         if "tracker config" in config:
             self._tracker = configure_tracker(config.get("tracker config"))
 
-        self._models, self._locators = populate_models(config)
+        self._tracker_handle = 0
+        if "tracker handle" in config:
+            self._tracker_handle = config.get("tracker handle")
+    
+        self._locator = locators(config)
         maps = add_map(config)
 
         self._pointer = VTKConeModel(10.0, 5.0, (1.0, 1.0, 1.0), "pointer")
         self.vtk_overlay_window.add_vtk_actor(self._pointer.actor)
-        self.vtk_overlay_window.add_vtk_models(self._models)
-        for model in self._models:
-            model.actor.GetProperty().SetColor(1.0, 1.0, 1.0)
+        self.vtk_overlay_window.add_vtk_models(self._locator.models)
 
         if maps is not None:
             self.vtk_overlay_window.add_vtk_models(maps)
@@ -58,18 +60,8 @@ class OverlayApp(OverlayBaseApp):
                 self.vtk_overlay_window.foreground_renderer.ResetCamera(
                     -300, 300, -300, 300, -200, 0)
 
-        self._tracker_handle = 0
-        self._search_radius = 10.0
-        if "search radius" in config:
-            self._search_radius = config.get("search radius")
+        self.vtk_overlay_window.add_vtk_actor(self._locator._text.text_actor)
 
-        self._text = VTKCornerAnnotation()
-        self._text.set_text(["Hello World", "", "", ""])
-        self.vtk_overlay_window.add_vtk_actor(self._text.text_actor)
-
-        self._targets = random_targets(len(self._locators))
-        self._target_index = 0
-        self._models[self._targets[self._target_index]].actor.GetProperty().SetColor(1.0, 0.0, 0.0)
 
     def update(self):
         """Update the background renderer with a new frame,
@@ -96,21 +88,6 @@ class OverlayApp(OverlayBaseApp):
 
             if not isnan(quality[ph_index]):
                 self._pointer.actor.SetUserMatrix(np2vtk(tracking[ph_index]))
-                index, distance = point_in_locator(tracking[ph_index][0:3, 3],
-                                                   self._locators,
-                                                   self._search_radius)
-                self._text.set_text([str(index), str(distance),
-                                     str(tracking[ph_index]),
-                                     str(self._target_index)])
 
-                if self._target_index < len(self._locators):
-                    if index == self._targets[self._target_index]:
-                        print("hit")
-                        self._models[index].actor.SetVisibility(False)
-                        self._target_index = self._target_index + 1
-                        self._models[self._targets[self._target_index]].actor.GetProperty().SetColor(1.0, 0.0, 0.0)
-                else:
-                    self._text.set_text([str(index), str(distance),
-                                         str(tracking[ph_index]),
-                                         str("Finished")])
+                self._locator.is_hit(tracking[ph_index])
 
