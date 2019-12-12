@@ -23,11 +23,12 @@ scikit-surgery-evaluation
 
 Author: Stephen Thompson
 
+scikit-surgery-evaluation provides an application to evaluate surgical skills. You can provide a set of unstructured grids representing a set of locations that the user is then expected to target using a tracked pointer, utilising a SNAPPY tracking library (scikit-surgeryarucotracker, or scikit-surgerynditracker). You can specify paths for the user to follow, or let the system select target meshes automatically.
+
 scikit-surgery-evaluation is part of the `SNAPPY`_ software project, developed at the `Wellcome EPSRC Centre for Interventional and Surgical Sciences`_, part of `University College London (UCL)`_.
 
 scikit-surgery-evaluation supports Python 3.6.
 
-scikit-surgery-evaluation provides an application to evaluate surgical skills. You can provide a set of unstructured meshes representing a set of locations that the user is then expected to target using a tracked pointer, utilising a SNAPPY tracking library (scikit-surgeryarucotracker, or scikit-surgerynditracker). You can specify paths for the user to follow, or let the system select target meshes automatically.
 
 ::
 
