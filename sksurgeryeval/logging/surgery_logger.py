@@ -50,3 +50,10 @@ class Logger():
             return
 
         self._logger.info(message)
+
+    def close(self):
+        """Releases the log file"""
+        if self._no_logging:
+            return
+
+        self._logger.handlers[0].close()
