@@ -51,10 +51,8 @@ class Logger():
 
         self._logger.info(message)
 
-    def close(self):
+    def __del__(self):
         """Releases the log file"""
-        if self._no_logging:
-            return
-
-        self._logger.handlers[0].flush()
-        self._logger.handlers[0].close()
+        if not self._no_logging:
+            self._logger.handlers[0].flush()
+            self._logger.handlers[0].close()

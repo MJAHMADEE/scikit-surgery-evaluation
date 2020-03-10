@@ -96,4 +96,4 @@ class OverlayApp(OverlayBaseApp):
 
     def __del__(self):
         self._logger.log(message="Closing overlay app")
-        self._logger.close()
+        del self._logger

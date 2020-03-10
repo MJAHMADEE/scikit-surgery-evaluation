@@ -18,7 +18,7 @@ def test_empty_config():
     logger = Logger(config)
 
     logger.log(message="testing")
-    logger.close()
+    del logger
 
 
 def test_non_empty_config():
@@ -35,7 +35,7 @@ def test_non_empty_config():
     logger.log(message="testing")
     assert path.exists("sks_evaluation.log")
 
-    logger.close()
+    del logger
     remove("sks_evaluation.log")
 
 
@@ -55,5 +55,5 @@ def test_overwrite():
     logger.log(message="testing")
     assert path.exists("testing_log_file.log")
 
-    logger.close()
+    del logger
     remove("testing_log_file.log")
