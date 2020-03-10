@@ -3,6 +3,7 @@
 """scikit-surgery-evaluation tests"""
 
 from os import remove, path
+from time import sleep
 from sksurgeryeval.logging.surgery_logger import Logger
 
 def test_empty_config():
@@ -35,6 +36,7 @@ def test_non_empty_config():
     assert path.exists("sks_evaluation.log")
 
     logger.close()
+    sleep(0.5)
     remove("sks_evaluation.log")
 
 def test_overwrite():
@@ -52,4 +54,5 @@ def test_overwrite():
     assert path.exists("sks_evaluation.log")
 
     logger.close()
+    sleep(0.5)
     remove("sks_evaluation.log")
