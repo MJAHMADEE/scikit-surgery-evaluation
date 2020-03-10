@@ -52,6 +52,7 @@ def test_overwrite():
         }
 
     logger = Logger(config)
+    logger.log(message="testing")
     assert path.exists("testing_log_file.log")
 
     logger.close()
