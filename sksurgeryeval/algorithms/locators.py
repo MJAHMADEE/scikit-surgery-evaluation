@@ -40,10 +40,11 @@ class Locators():
         self.models[index].actor.GetProperty().SetColor(1.0, 1.0, 1.0)
 
 
-    def is_hit(self, tracking):
+    def is_hit(self, tracking, logger):
         """
         Checks whether a target has been hit
         :param: the tracking data (3D point)
+        :param: a logger to write notification to
         """
         index, distance = point_in_locator(tracking[0:3, 3],
                                            self._locators,
@@ -57,7 +58,7 @@ class Locators():
                                  str(self._targets[self._target_index])])
 
             if index == self._targets[self._target_index]:
-                print("hit")
+                logger.log(message="Hit target:{0}".format(index))
                 self._set_target_inactive(self._targets[self._target_index])
                 self._target_index = self._target_index + 1
                 if self._target_index < len(self._locators):
@@ -66,6 +67,7 @@ class Locators():
                     self._text.set_text([str(index), str(distance),
                                          str(tracking),
                                          str("Finished")])
+                    logger.log(message="All targets hit")
         else:
             self._text.set_text([str(index), str(distance),
                                  str(tracking),

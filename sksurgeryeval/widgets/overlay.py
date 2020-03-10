@@ -9,6 +9,7 @@ from sksurgeryeval.algorithms.background_image import \
         OverlayBackground
 from sksurgeryeval.shapes.cone import VTKConeModel
 from sksurgeryeval.algorithms.locators import Locators
+from sksurgeryeval.logging.surgery_logger import Logger
 
 
 class OverlayApp(OverlayBaseApp):
@@ -26,6 +27,7 @@ class OverlayApp(OverlayBaseApp):
             self.timer = None
             self.save_frame = None
 
+        self._logger = Logger(config)
         if "logo" in config:
             self.bg_image = OverlayBackground(config)
         else:
@@ -61,6 +63,8 @@ class OverlayApp(OverlayBaseApp):
 
         self.vtk_overlay_window.add_vtk_actor(self._locator._text.text_actor)
 
+        self._logger.log(message="OverlayApp init OK")
+
 
     def update(self):
         """Update the background renderer with a new frame,
@@ -88,4 +92,8 @@ class OverlayApp(OverlayBaseApp):
             if not isnan(quality[ph_index]):
                 self._pointer.actor.SetUserMatrix(np2vtk(tracking[ph_index]))
 
-                self._locator.is_hit(tracking[ph_index])
+                self._locator.is_hit(tracking[ph_index], self._logger)
+
+    def __del__(self):
+        self._logger.log(message="Closing overlay app")
+        self._logger.close()

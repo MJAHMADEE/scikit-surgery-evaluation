@@ -16,6 +16,11 @@
 	"map" : "data/full",
         "model to world" : "configuration/model_to_world.txt",
 	"logo"   : false,
-	"search radius" : 1000
+	"search radius" : 1000,
+
+	"logger" : {
+		"log file name" : "sks_eval_liver_phantom.log",
+		"overwrite existing" : false
+	}
 }
 
