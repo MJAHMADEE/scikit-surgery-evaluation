@@ -56,4 +56,5 @@ class Logger():
         if self._no_logging:
             return
 
+        self._logger.handlers[0].flush()
         self._logger.handlers[0].close()
