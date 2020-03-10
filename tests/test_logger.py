@@ -2,7 +2,7 @@
 
 """scikit-surgery-evaluation tests"""
 
-from os import remove, path
+from os import path
 from sksurgeryeval.logging.surgery_logger import Logger
 
 def test_empty_config():
@@ -36,7 +36,6 @@ def test_non_empty_config():
     assert path.exists("sks_evaluation.log")
 
     del logger
-    remove("sks_evaluation.log")
 
 
 def test_overwrite():
@@ -56,4 +55,3 @@ def test_overwrite():
     assert path.exists("testing_log_file.log")
 
     del logger
-    remove("testing_log_file.log")
