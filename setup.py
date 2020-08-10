@@ -17,7 +17,7 @@ setup(
     description='A python library for performing surgical skills evaluation',
     long_description=long_description,
     long_description_content_type='text/x-rst',
-    url='https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgery-evaluation',
+    url='https://github.com/UCL/scikit-surgery-evaluation',
     author='Stephen Thompson',
     author_email='YOUR-EMAIL@ucl.ac.uk',
     license='BSD-3 license',
@@ -52,7 +52,7 @@ setup(
     ),
 
     install_requires=[
-        'numpy>=1.11',
+        'numpy',
         'ipykernel',
         'nbsphinx',
         'vtk',
