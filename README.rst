@@ -1,18 +1,20 @@
 scikit-surgery-evaluation
 ===============================
 
-.. image:: https://github.com/UCL/scikit-surgery-evaluation/raw/master/project-icon.png
+.. image:: https://github.com/SciKit-Surgery/scikit-surgery-evaluation/raw/master/project-icon.png
    :height: 128px
    :width: 128px
-   :target: https://github.com/UCL/scikit-surgery-evaluation
+   :target: https://github.com/SciKit-Surgery/scikit-surgery-evaluation
    :alt: Logo
 
-.. image:: https://github.com/UCL/scikit-surgery-evaluation/workflows/.github/workflows/ci.yml/badge.svg
-   :target: https://github.com/UCL/scikit-surgery-evaluation/actions
+|
+
+.. image:: https://github.com/SciKit-Surgery/scikit-surgery-evaluation/workflows/.github/workflows/ci.yml/badge.svg
+   :target: https://github.com/SciKit-Surgery/scikit-surgery-evaluation/actions
    :alt: GitHub Actions CI status
 
-.. image:: https://coveralls.io/repos/github/UCL/scikit-surgery-evaluation/badge.svg?branch=master&service=github
-    :target: https://coveralls.io/github/UCL/scikit-surgery-evaluation?branch=master 
+.. image:: https://coveralls.io/repos/github/SciKit-Surgery/scikit-surgery-evaluation/badge.svg?branch=master&service=github
+    :target: https://coveralls.io/github/SciKit-Surgery/scikit-surgery-evaluation?branch=master 
     :alt: Test coverage
 
 .. image:: https://readthedocs.org/projects/scikit-surgery-evaluation/badge/?version=latest
@@ -23,6 +25,12 @@ scikit-surgery-evaluation
    :target: https://doi.org/10.1007/s11548-020-02180-5
    :alt: The SciKit-Surgery paper
 
+.. image:: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
+   :target: CODE_OF_CONDUCT.md
+
+.. image:: https://img.shields.io/twitter/follow/scikit_surgery?style=social
+   :target: https://twitter.com/scikit_surgery?ref_src=twsrc%5Etfw
+   :alt: Follow scikit_surgery on twitter
 
 Author: Stephen Thompson
 
@@ -30,7 +38,7 @@ scikit-surgery-evaluation provides an application to evaluate surgical skills. Y
 
 scikit-surgery-evaluation is part of the `SciKit-Surgery`_ software project, developed at the `Wellcome EPSRC Centre for Interventional and Surgical Sciences`_, part of `University College London (UCL)`_.
 
-scikit-surgery-evaluation supports Python 3.6.
+scikit-surgery-evaluation supports Python 3.X.
 
 
 ::
@@ -48,7 +56,7 @@ You can clone the repository using the following command:
 
 ::
 
-    git clone https://github.com/UCL/scikit-surgery-evaluation
+    git clone https://github.com/SciKit-Surgery/scikit-surgery-evaluation
 
 
 Running tests
@@ -78,7 +86,7 @@ You can pip install directly from the repository as follows:
 
 ::
 
-    pip install git+https://github.com/UCL/scikit-surgery-evaluation
+    pip install git+https://github.com/SciKit-Surgery/scikit-surgery-evaluation
 
 
 
@@ -109,12 +117,12 @@ Supported by `Wellcome`_ and `EPSRC`_.
 
 
 .. _`Wellcome EPSRC Centre for Interventional and Surgical Sciences`: http://www.ucl.ac.uk/weiss
-.. _`source code repository`: https://github.com/UCL/scikit-surgery-evaluation
+.. _`source code repository`: https://github.com/SciKit-Surgery/scikit-surgery-evaluation
 .. _`Documentation`: https://scikit-surgery-evaluation.readthedocs.io
-.. _`SciKit-Surgery`: https://github.com/UCL/scikit-surgery/wiki
+.. _`SciKit-Surgery`: https://github.com/SciKit-Surgery/scikit-surgery/wiki
 .. _`University College London (UCL)`: http://www.ucl.ac.uk/
 .. _`Wellcome`: https://wellcome.ac.uk/
 .. _`EPSRC`: https://www.epsrc.ac.uk/
-.. _`contributing guidelines`: https://github.com/UCL/scikit-surgery-evaluation/blob/master/CONTRIBUTING.rst
-.. _`license file`: https://github.com/UCL/scikit-surgery-evaluation/blob/master/LICENSE
+.. _`contributing guidelines`: https://github.com/SciKit-Surgery/scikit-surgery-evaluation/blob/master/CONTRIBUTING.rst
+.. _`license file`: https://github.com/SciKit-Surgery/scikit-surgery-evaluation/blob/master/LICENSE
 
