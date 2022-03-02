@@ -58,7 +58,7 @@ class Locators():
                                  str(self._targets[self._target_index])])
 
             if index == self._targets[self._target_index]:
-                logger.log(message="Hit target:{0}".format(index))
+                logger.log(message=f"Hit target:{index}")
                 self._set_target_inactive(self._targets[self._target_index])
                 self._target_index = self._target_index + 1
                 if self._target_index < len(self._locators):
